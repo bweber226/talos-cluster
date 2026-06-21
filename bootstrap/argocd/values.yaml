@@ -1,0 +1,10 @@
+global:
+  domain: argocd.webernet.me
+
+configs:
+  params:
+    server.insecure: "true"  # handle TLS at the ingress level, not inside argocd
+
+server:
+  service:
+    type: ClusterIP  # will switch to LoadBalancer after MetalLB is running
