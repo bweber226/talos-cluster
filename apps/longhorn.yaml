@@ -17,6 +17,7 @@ spec:
           defaultReplicaCount: 2
           defaultDataPath: /var/lib/longhorn
           storageMinimalAvailablePercentage: 10
+          backupTarget: nfs://192.168.0.231:/mnt/tank/longhorn-backups
   destination:
     server: https://kubernetes.default.svc
     namespace: longhorn-system
