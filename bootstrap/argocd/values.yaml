@@ -3,8 +3,14 @@ global:
 
 configs:
   params:
-    server.insecure: "true"  # handle TLS at the ingress level, not inside argocd
+    server.insecure: "true"
 
 server:
   service:
-    type: ClusterIP  # will switch to LoadBalancer after MetalLB is running
+    type: LoadBalancer
+    annotations:
+      metallb.universe.tf/loadBalancerIPs: 192.168.0.222
+  ingress:
+    enabled: true
+    ingressClassName: traefik
+    hostname: argocd.webernet.me
