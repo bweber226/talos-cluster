@@ -75,6 +75,9 @@ spec:
               value: mousehole.webernet.me
             - name: MOUSEHOLE_ALLOWED_ORIGINS
               value: http://mousehole.webernet.me
+          envFrom:
+            - secretRef:
+                name: gluetun-secret
 
       volumes:
         - name: tun-device
