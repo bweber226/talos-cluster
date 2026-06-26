@@ -23,6 +23,8 @@ spec:
           env:
             - name: TZ
               value: America/Chicago
+            - name: LASTFM_REDIRECT_URI
+              value: http://scrobbler.webernet.me/lastfm/callback
           envFrom:
             - secretRef:
                 name: multi-scrobbler-secret
