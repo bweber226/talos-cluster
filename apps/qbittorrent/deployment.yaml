@@ -1,0 +1,88 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: qbittorrent
+  namespace: media
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: qbittorrent
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: qbittorrent
+    spec:
+      containers:
+        - name: gluetun
+          image: qmcgaw/gluetun:latest
+          securityContext:
+            capabilities:
+              add:
+                - NET_ADMIN
+          env:
+            - name: VPN_SERVICE_PROVIDER
+              value: mullvad
+            - name: VPN_TYPE
+              value: wireguard
+            - name: SERVER_COUNTRIES
+              value: USA
+            - name: TZ
+              value: America/Chicago
+          envFrom:
+            - secretRef:
+                name: gluetun-secret
+          volumeMounts:
+            - name: tun-device
+              mountPath: /dev/net/tun
+            - name: config
+              mountPath: /gluetun
+              subPath: gluetun
+          ports:
+            - containerPort: 8080
+            - containerPort: 5010
+            - containerPort: 52000
+              protocol: TCP
+            - containerPort: 52000
+              protocol: UDP
+
+        - name: qbittorrent
+          image: lscr.io/linuxserver/qbittorrent:latest
+          env:
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+            - name: TZ
+              value: America/Chicago
+            - name: WEBUI_PORT
+              value: "8080"
+          volumeMounts:
+            - name: config
+              mountPath: /config
+              subPath: qbittorrent
+            - name: downloads
+              mountPath: /downloads
+
+        - name: mousehole
+          image: tmmrtn/mousehole:latest
+          env:
+            - name: TZ
+              value: America/Chicago
+            - name: MOUSEHOLE_ALLOWED_HOSTS
+              value: mousehole.webernet.me
+            - name: MOUSEHOLE_ALLOWED_ORIGINS
+              value: http://mousehole.webernet.me
+
+      volumes:
+        - name: tun-device
+          hostPath:
+            path: /dev/net/tun
+        - name: config
+          persistentVolumeClaim:
+            claimName: qbittorrent-config
+        - name: downloads
+          persistentVolumeClaim:
+            claimName: downloads
