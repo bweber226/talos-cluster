@@ -23,6 +23,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: mousehole
+                name: mousehole-web
                 port:
                   number: 5010
