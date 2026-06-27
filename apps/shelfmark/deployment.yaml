@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shelfmark
+  namespace: media
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: shelfmark
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: shelfmark
+    spec:
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        runAsNonRoot: true
+      containers:
+        - name: shelfmark
+          image: ghcr.io/calibrain/shelfmark:latest
+          ports:
+            - containerPort: 8084
+          env:
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+            - name: TZ
+              value: America/Chicago
+            - name: FLASK_PORT
+              value: "8084"
+            - name: INGEST_DIR
+              value: /downloads
+            - name: QBITTORRENT_URL
+              value: http://qbittorrent.media.svc.cluster.local:8080
+            - name: QBITTORRENT_DOWNLOAD_DIR
+              value: /downloads
+            - name: PROWLARR_URL
+              value: http://prowlarr.media.svc.cluster.local:9696
+            - name: AUDIOBOOK_LIBRARY_URL
+              value: http://abs.webernet.me
+          envFrom:
+            - secretRef:
+                name: shelfmark-secret
+          livenessProbe:
+            httpGet:
+              path: /api/health
+              port: 8084
+            initialDelaySeconds: 60
+            periodSeconds: 30
+            timeoutSeconds: 30
+          volumeMounts:
+            - name: config
+              mountPath: /config
+            - name: downloads
+              mountPath: /downloads
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: shelfmark-config
+        - name: downloads
+          persistentVolumeClaim:
+            claimName: downloads

@@ -4,6 +4,8 @@ global:
 configs:
   params:
     server.insecure: "true"
+  cm:
+    url: http://argocd.webernet.me
 
 server:
   service:
