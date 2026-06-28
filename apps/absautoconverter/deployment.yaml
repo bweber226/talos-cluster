@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: absautoconverter
+  namespace: media
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: absautoconverter
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: absautoconverter
+    spec:
+      containers:
+        - name: absautoconverter
+          image: cutzenfriend/abs-autoconverter:latest
+          env:
+            - name: TZ
+              value: America/Chicago
+            - name: DOMAIN
+              value: http://audiobookshelf.media.svc.cluster.local
+            - name: MAX_PARALLEL_CONVERSIONS
+              value: "2"
+            - name: BITRATE
+              value: source
+            - name: FAILURE_PERSIST_PATH
+              value: /data/failures.json
+          envFrom:
+            - secretRef:
+                name: absautoconverter-secret
+          volumeMounts:
+            - name: data
+              mountPath: /data
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: absautoconverter-data
