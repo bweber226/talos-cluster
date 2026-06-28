@@ -11,3 +11,4 @@ data:
     auth-file: /var/lib/ntfy/auth.db
     auth-default-access: "deny-all"
     enable-signup: false
+    require-login: true
