@@ -34,8 +34,6 @@ spec:
               value: America/Chicago
             - name: FLASK_PORT
               value: "8084"
-            - name: INGEST_DIR
-              value: /downloads
             - name: QBITTORRENT_URL
               value: http://qbittorrent.media.svc.cluster.local:8080
             - name: QBITTORRENT_DOWNLOAD_DIR
@@ -59,6 +57,10 @@ spec:
               mountPath: /config
             - name: downloads
               mountPath: /downloads
+            - name: audiobooks
+              mountPath: /audiobooks
+            - name: ebooks
+              mountPath: /ebooks
       volumes:
         - name: config
           persistentVolumeClaim:
@@ -66,3 +68,9 @@ spec:
         - name: downloads
           persistentVolumeClaim:
             claimName: downloads
+        - name: audiobooks
+          persistentVolumeClaim:
+            claimName: audiobooks
+        - name: ebooks
+          persistentVolumeClaim:
+            claimName: ebooks
