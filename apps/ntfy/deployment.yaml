@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ntfy
+  namespace: ntfy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ntfy
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: ntfy
+    spec:
+      containers:
+        - name: ntfy
+          image: binwiederhier/ntfy:latest
+          args:
+            - serve
+          env:
+            - name: TZ
+              value: America/Chicago
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: config
+              mountPath: /etc/ntfy/server.yml
+              subPath: server.yml
+            - name: data
+              mountPath: /var/lib/ntfy
+      volumes:
+        - name: config
+          configMap:
+            name: ntfy-config
+        - name: data
+          persistentVolumeClaim:
+            claimName: ntfy-data
