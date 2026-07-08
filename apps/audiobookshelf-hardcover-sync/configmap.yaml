@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: audiobookshelf-hardcover-sync-config
+  namespace: media
+data:
+  config.yaml: |
+    authentication:
+      enabled: true

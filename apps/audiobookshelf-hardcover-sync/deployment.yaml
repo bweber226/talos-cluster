@@ -31,6 +31,8 @@ spec:
               value: "true"
             - name: AUTH_ENABLED
               value: "true"
+            - name: CONFIG_PATH
+              value: /app/config/config.yaml
             - name: DATA_DIR
               value: /data
             - name: DATABASE_PATH
@@ -59,7 +61,12 @@ spec:
           volumeMounts:
             - name: data
               mountPath: /data
+            - name: config
+              mountPath: /app/config
       volumes:
         - name: data
           persistentVolumeClaim:
             claimName: audiobookshelf-hardcover-sync-data
+        - name: config
+          configMap:
+            name: audiobookshelf-hardcover-sync-config
