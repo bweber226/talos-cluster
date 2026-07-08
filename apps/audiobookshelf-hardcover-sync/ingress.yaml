@@ -1,0 +1,18 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: audiobookshelf-hardcover-sync
+  namespace: media
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: abs-sync.webernet.me
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: audiobookshelf-hardcover-sync
+                port:
+                  number: 8080
