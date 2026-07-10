@@ -20,7 +20,7 @@
     },
     {
       "versioning": "loose",
-      "allowedVersions": "< 15",
+      "allowedVersions": "< 14",
       "matchPackageNames": [
         "lscr.io/linuxserver/prowlarr",
         "lscr.io/linuxserver/qbittorrent"
