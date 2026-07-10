@@ -4,10 +4,14 @@
     "config:recommended"
   ],
   "argocd": {
-    "fileMatch": ["(^|/)apps/[^/]+\\.yaml$"]
+    "managerFilePatterns": [
+      "/(^|/)apps/[^/]+\\.yaml$/"
+    ]
   },
   "kubernetes": {
-    "fileMatch": ["(^|/)apps/.+/deployment\\.yaml$"]
+    "managerFilePatterns": [
+      "/(^|/)apps/.+/deployment\\.yaml$/"
+    ]
   },
   "packageRules": [
     {
@@ -15,9 +19,11 @@
       "addLabels": ["renovate"]
     },
     {
-      "matchPackagePatterns": ["^lscr\\.io/linuxserver/"],
       "versioning": "loose",
-      "allowedVersions": "/^\\d+\\.\\d+\\.\\d+$/"
+      "allowedVersions": "/^\\d+\\.\\d+\\.\\d+$/",
+      "matchPackageNames": [
+        "/^lscr\\.io/linuxserver//"
+      ]
     }
   ]
 }
