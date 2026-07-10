@@ -25,6 +25,12 @@
         "lscr.io/linuxserver/prowlarr",
         "lscr.io/linuxserver/qbittorrent"
       ]
+    },
+    {
+      "ignoredVersions": ["20", "v20"],
+      "matchPackageNames": [
+        "lscr.io/linuxserver/qbittorrent"
+      ]
     }
   ]
 }
