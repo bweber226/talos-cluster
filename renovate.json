@@ -22,7 +22,8 @@
       "versioning": "loose",
       "allowedVersions": "/^\\d+\\.\\d+\\.\\d+$/",
       "matchPackageNames": [
-        "/^lscr\\.io/linuxserver//"
+        "lscr.io/linuxserver/prowlarr",
+        "lscr.io/linuxserver/qbittorrent"
       ]
     }
   ]
