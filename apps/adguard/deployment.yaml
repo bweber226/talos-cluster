@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: adguard
-          image: adguard/adguardhome:v0.107.63
+          image: adguard/adguardhome:v0.107.77
           ports:
             - containerPort: 3000
               name: setup
