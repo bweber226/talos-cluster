@@ -1,0 +1,22 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended"
+  ],
+  "argocd": {
+    "fileMatch": ["(^|/)apps/[^/]+\\.yaml$"]
+  },
+  "kubernetes": {
+    "fileMatch": ["(^|/)apps/.+/deployment\\.yaml$"]
+  },
+  "packageRules": [
+    {
+      "matchManagers": ["argocd", "kubernetes"],
+      "addLabels": ["renovate"]
+    },
+    {
+      "matchPackageNames": ["lscr.io/linuxserver/**"],
+      "versioning": "loose"
+    }
+  ]
+}
