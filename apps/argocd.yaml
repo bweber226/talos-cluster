@@ -1,0 +1,36 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argocd
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://argoproj.github.io/argo-helm
+    chart: argo-cd
+    targetRevision: 9.6.0
+    helm:
+      valuesObject:
+        global:
+          domain: argocd.webernet.me
+        configs:
+          params:
+            server.insecure: "true"
+          cm:
+            url: http://argocd.webernet.me
+        server:
+          service:
+            type: LoadBalancer
+            annotations:
+              metallb.universe.tf/loadBalancerIPs: 192.168.0.222
+          ingress:
+            enabled: true
+            ingressClassName: traefik
+            hostname: argocd.webernet.me
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
