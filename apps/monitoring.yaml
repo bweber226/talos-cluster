@@ -29,6 +29,9 @@ spec:
                     requests:
                       storage: 10Gi
         grafana:
+          grafana.ini:
+            server:
+              root_url: https://grafana.webernet.me
           admin:
             existingSecret: grafana-admin-secret
             userKey: admin-user
