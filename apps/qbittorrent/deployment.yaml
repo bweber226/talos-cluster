@@ -78,6 +78,10 @@ spec:
           envFrom:
             - secretRef:
                 name: gluetun-secret
+          volumeMounts:
+            - name: config
+              mountPath: /var/lib/mousehole
+              subPath: mousehole
 
       volumes:
         - name: tun-device
