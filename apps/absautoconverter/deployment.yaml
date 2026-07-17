@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: absautoconverter
-          image: cutzenfriend/abs-autoconverter:1.6.0
+          image: cutzenfriend/abs-autoconverter:1.7.0
           env:
             - name: TZ
               value: America/Chicago
