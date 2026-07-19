@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: metashelf
+  namespace: media
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: metashelf
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: metashelf
+    spec:
+      containers:
+        - name: metashelf
+          image: ghcr.io/bweber226/metashelf:0.1.0
+          ports:
+            - containerPort: 8000
+          env:
+            - name: DB_PATH
+              value: /data/metashelf.db
+          envFrom:
+            - secretRef:
+                name: metashelf-secret
+          volumeMounts:
+            - name: data
+              mountPath: /data
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: metashelf-data
