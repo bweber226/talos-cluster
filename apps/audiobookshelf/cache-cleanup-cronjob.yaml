@@ -1,0 +1,22 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: audiobookshelf-cache-cleanup
+  namespace: media
+spec:
+  schedule: "0 3 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          serviceAccountName: audiobookshelf-cache-cleanup
+          restartPolicy: OnFailure
+          containers:
+            - name: kubectl
+              image: alpine/kubectl:1.36.2
+              command:
+                - sh
+                - -c
+                - |
+                  POD=$(kubectl get pod -n media -l app=audiobookshelf -o jsonpath='{.items[0].metadata.name}')
+                  kubectl exec -n media "$POD" -- sh -c 'rm -rf /metadata/cache/items/*'

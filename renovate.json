@@ -10,7 +10,7 @@
   },
   "kubernetes": {
     "managerFilePatterns": [
-      "/(^|/)apps/.+/deployment\\.yaml$/"
+      "/(^|/)apps/.+/(deployment|[a-z-]*cronjob)\\.yaml$/"
     ]
   },
   "packageRules": [

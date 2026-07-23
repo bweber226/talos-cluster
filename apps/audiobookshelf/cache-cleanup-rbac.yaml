@@ -1,0 +1,26 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: audiobookshelf-cache-cleanup
+  namespace: media
+rules:
+  - apiGroups: [""]
+    resources: ["pods"]
+    verbs: ["get", "list"]
+  - apiGroups: [""]
+    resources: ["pods/exec"]
+    verbs: ["create"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: audiobookshelf-cache-cleanup
+  namespace: media
+subjects:
+  - kind: ServiceAccount
+    name: audiobookshelf-cache-cleanup
+    namespace: media
+roleRef:
+  kind: Role
+  name: audiobookshelf-cache-cleanup
+  apiGroup: rbac.authorization.k8s.io
