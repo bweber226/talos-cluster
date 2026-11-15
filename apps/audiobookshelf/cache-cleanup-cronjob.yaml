@@ -13,7 +13,7 @@ spec:
           restartPolicy: OnFailure
           containers:
             - name: kubectl
-              image: alpine/kubectl:1.37.1
+              image: alpine/kubectl:1.37.2
               command:
                 - sh
                 - -c
