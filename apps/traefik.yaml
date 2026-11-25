@@ -14,7 +14,8 @@ spec:
     helm:
       valuesObject:
         service:
-          type: LoadBalancer
+          spec:
+            type: LoadBalancer
         ingressClass:
           enabled: true
           isDefaultClass: true
